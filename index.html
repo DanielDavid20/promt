@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Generador de Prompt - Comentario Negativo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #444;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 20px;
+    }
+    textarea, input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    button {
+      margin-top: 25px;
+      padding: 12px 20px;
+      background: #005baa;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #004080;
+    }
+    .output {
+      margin-top: 30px;
+      white-space: pre-wrap;
+      background: #f9f9f9;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🧠 Generador de Prompt Inteligente</h2>
+
+    <label for="tema">Tema del comentario:</label>
+    <input type="text" id="tema" placeholder="Ejemplo: participación política de las mujeres">
+
+    <label for="link">Link a la publicación:</label>
+    <input type="text" id="link" placeholder="Ejemplo: https://facebook.com/post/123">
+
+    <label for="comentario">Comentario textual:</label>
+    <textarea id="comentario" rows="4" placeholder="Escribe aquí el comentario negativo..."></textarea>
+
+    <button onclick="generarPrompt()">Generar Prompt</button>
+
+    <div class="output" id="resultado"></div>
+    <button id="copiarRedirigir" style="display:none; margin-top:10px; background:#00b86b;" onclick="copiarYRedirigir()">Copiar y abrir ChatGPT</button>
+    <button id="copiarRedirigirCopilot" style="display:none; margin-top:10px; background:#0078d4;" onclick="copiarYRedirigirCopilot()">Copiar y abrir Copilot</button>
+  </div>
+
+  <script>
+    function generarPrompt() {
+      const tema = document.getElementById("tema").value.trim();
+      const link = document.getElementById("link").value.trim();
+      const comentario = document.getElementById("comentario").value.trim();
+
+      const prompt = `Quiero que me ayudes a responder a un comentario negativo en Facebook relacionado con el tema *${tema}*,  que fue publicado en el siguiente enlace:  ${link}.
+
+El comentario dice: *"${comentario}"*.
+
+Necesito que generes *5 posibles respuestas* que cumplan con lo siguiente:
+- Sean claras, respetuosas y firmes.
+- Estén fundamentadas en legislación colombiana vigente (cita artículos o leyes si aplica).
+- Utilicen técnicas de contraargumentación, sin caer en provocaciones ni lenguaje ofensivo.
+- Estén alineadas con los valores del Partido MIRA: respeto, coherencia y responsabilidad.
+- Tengan en cuenta el contexto actual del país y hechos verificables.
+
+No incluyas explicaciones internas ni desarrollo adicional, solo las respuestas listas para publicar.`;
+
+      document.getElementById("resultado").textContent = prompt;
+      document.getElementById("copiarRedirigir").style.display = "block";
+      document.getElementById("copiarRedirigirCopilot").style.display = "block";
+    }
+
+    function copiarYRedirigir() {
+      const prompt = document.getElementById("resultado").textContent;
+      if (!prompt) return;
+      navigator.clipboard.writeText(prompt).then(function() {
+        alert("A continuación serás redirigido a ChatGPT.\n\nPara pegar tu prompt:\n- En computadora: presiona Ctrl + V en el cuadro de texto.\n- En teléfono: mantén presionado en el cuadro de texto y selecciona 'Pegar'.");
+        window.location.href = "https://chatgpt.com/?model=auto";
+      });
+    }
+
+    function copiarYRedirigirCopilot() {
+      const prompt = document.getElementById("resultado").textContent;
+      if (!prompt) return;
+      navigator.clipboard.writeText(prompt).then(function() {
+        alert("A continuación serás redirigido a Copilot.\n\nPara pegar tu prompt:\n- En computadora: presiona Ctrl + V en el cuadro de texto.\n- En teléfono: mantén presionado en el cuadro de texto y selecciona 'Pegar'.");
+        window.location.href = "https://copilot.microsoft.com/chats/36aEQkA7gcwf7JAgHKQYQ";
+      });
+    }
+  </script>
+</body>
+</html>
