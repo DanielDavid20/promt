@@ -3,81 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <title>Generador de Prompt - Comentario Negativo</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      padding: 20px;
-    }
-    .container {
-      max-width: 700px;
-      margin: auto;
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    h2 {
-      text-align: center;
-      color: #444;
-    }
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 20px;
-    }
-    textarea, input {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 14px;
-    }
-    button {
-      margin-top: 25px;
-      padding: 12px 20px;
-      background: #005baa;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #004080;
-    }
-    .output {
-      margin-top: 30px;
-      white-space: pre-wrap;
-      background: #f9f9f9;
-      padding: 15px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h2>🧠 Generador de Prompt Inteligente</h2>
+  <div class="header">
+    <h1>🧠 Generador de Prompts Inteligente</h1>
+    <p>Responde comentarios negativos en Facebook con argumentos sólidos y respeto</p>
+  </div>
+  <form class="card" onsubmit="event.preventDefault(); generarPrompt();">
+    <label for="tema">Tema del comentario</label>
+    <input type="text" id="tema" placeholder="Ejemplo: participación política de las mujeres" autocomplete="off" required>
 
-    <label for="tema">Tema del comentario:</label>
-    <input type="text" id="tema" placeholder="Ejemplo: participación política de las mujeres">
+    <label for="link">Link a la publicación</label>
+    <input type="text" id="link" placeholder="Ejemplo: https://facebook.com/post/123" autocomplete="off" required>
 
-    <label for="link">Link a la publicación:</label>
-    <input type="text" id="link" placeholder="Ejemplo: https://facebook.com/post/123">
+    <label for="comentario">Comentario textual</label>
+    <textarea id="comentario" rows="4" placeholder="Escribe aquí el comentario negativo..." required></textarea>
 
-    <label for="comentario">Comentario textual:</label>
-    <textarea id="comentario" rows="4" placeholder="Escribe aquí el comentario negativo..."></textarea>
-
-    <button onclick="generarPrompt()">Generar Prompt</button>
-
+    <div class="actions">
+      <button type="submit" class="gen">Generar Prompt</button>
+    </div>
     <div class="output" id="resultado"></div>
-    <button id="copiarRedirigir" style="display:none; margin-top:10px; background:#00b86b;" onclick="copiarYRedirigir()">Copiar y abrir ChatGPT</button>
-    <button id="copiarRedirigirCopilot" style="display:none; margin-top:10px; background:#0078d4;" onclick="copiarYRedirigirCopilot()">Copiar y abrir Copilot</button>
+    <div class="copy-actions" style="display:flex; flex-direction:column; gap:10px; margin-top:10px; display:none;">
+      <button id="copiarRedirigir" type="button" class="chatgpt" onclick="copiarYRedirigir()"><img src="chat gpt.png" alt="ChatGPT" class="icon-img-chatgpt" aria-hidden="true"/> Copiar y abrir ChatGPT</button>
+      <button id="copiarRedirigirCopilot" type="button" class="copilot" onclick="copiarYRedirigirCopilot()"><img src="copilot.png" alt="Copilot" class="icon-img-copilot" aria-hidden="true"/> Copiar y abrir Copilot</button>
+      <button id="copiarRedirigirGemini" type="button" class="gemini" style="display:none;" onclick="copiarYRedirigirGemini()"><img src="gemini.png" alt="Gemini" class="icon-img-gemini" aria-hidden="true"/> Copiar y abrir Gemini</button>
+    </div>
+  </form>
+
+  <!-- Modal personalizado -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <button class="close" onclick="cerrarModal()" aria-label="Cerrar ventana">&times;</button>
+      <div id="modalMensaje"></div>
+      <button onclick="continuarRedireccion()">Continuar</button>
+    </div>
   </div>
 
+  <div id="toast" class="toast"></div>
+
   <script>
+    let redireccionURL = null;
+
     function generarPrompt() {
       const tema = document.getElementById("tema").value.trim();
       const link = document.getElementById("link").value.trim();
@@ -97,16 +65,17 @@ Necesito que generes *5 posibles respuestas* que cumplan con lo siguiente:
 No incluyas explicaciones internas ni desarrollo adicional, solo las respuestas listas para publicar.`;
 
       document.getElementById("resultado").textContent = prompt;
+      document.querySelector(".copy-actions").style.display = "flex";
       document.getElementById("copiarRedirigir").style.display = "block";
       document.getElementById("copiarRedirigirCopilot").style.display = "block";
+      document.getElementById("copiarRedirigirGemini").style.display = "block";
     }
 
     function copiarYRedirigir() {
       const prompt = document.getElementById("resultado").textContent;
       if (!prompt) return;
       navigator.clipboard.writeText(prompt).then(function() {
-        alert("A continuación serás redirigido a ChatGPT.\n\nPara pegar tu prompt:\n- En computadora: presiona Ctrl + V en el cuadro de texto.\n- En teléfono: mantén presionado en el cuadro de texto y selecciona 'Pegar'.");
-        window.location.href = "https://chatgpt.com/?model=auto";
+        mostrarModal("<strong>A continuación serás redirigido a ChatGPT.</strong><br><br>Para pegar tu prompt:<br>- <b>En computadora:</b> presiona <b>Ctrl + V</b> en el cuadro de texto.<br>- <b>En teléfono:</b> mantén presionado en el cuadro de texto y selecciona <b>'Pegar'</b>.", "https://chatgpt.com/?model=auto");
       });
     }
 
@@ -114,9 +83,45 @@ No incluyas explicaciones internas ni desarrollo adicional, solo las respuestas 
       const prompt = document.getElementById("resultado").textContent;
       if (!prompt) return;
       navigator.clipboard.writeText(prompt).then(function() {
-        alert("A continuación serás redirigido a Copilot.\n\nPara pegar tu prompt:\n- En computadora: presiona Ctrl + V en el cuadro de texto.\n- En teléfono: mantén presionado en el cuadro de texto y selecciona 'Pegar'.");
-        window.location.href = "https://copilot.microsoft.com/chats/36aEQkA7gcwf7JAgHKQYQ";
+        mostrarModal("<strong>A continuación serás redirigido a Copilot.</strong><br><br>Para pegar tu prompt:<br>- <b>En computadora:</b> presiona <b>Ctrl + V</b> en el cuadro de texto.<br>- <b>En teléfono:</b> mantén presionado en el cuadro de texto y selecciona <b>'Pegar'</b>.", "https://copilot.microsoft.com/chats/36aEQkA7gcwf7JAgHKQYQ");
       });
+    }
+
+    function copiarYRedirigirGemini() {
+      const prompt = document.getElementById("resultado").textContent;
+      if (!prompt) return;
+      navigator.clipboard.writeText(prompt).then(function() {
+        mostrarModal("<strong>A continuación serás redirigido a Gemini (Google).</strong><br><br>Para pegar tu prompt:<br>- <b>En computadora:</b> presiona <b>Ctrl + V</b> en el cuadro de texto.<br>- <b>En teléfono:</b> mantén presionado en el cuadro de texto y selecciona <b>'Pegar'</b>.", "https://gemini.google.com/?hl=es");
+      });
+    }
+
+    function mostrarToast(mensaje) {
+      const toast = document.getElementById('toast');
+      toast.textContent = mensaje;
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 2000);
+    }
+
+    function mostrarModal(mensaje, url) {
+      mostrarToast('Prompt copiado exitosamente');
+      setTimeout(() => {
+        document.getElementById('modalMensaje').innerHTML = mensaje;
+        document.getElementById('modal').style.display = 'flex';
+        redireccionURL = url;
+      }, 2000);
+    }
+
+    function cerrarModal() {
+      document.getElementById('modal').style.display = 'none';
+      redireccionURL = null;
+    }
+
+    function continuarRedireccion() {
+      if (redireccionURL) {
+        window.location.href = redireccionURL;
+      }
     }
   </script>
 </body>
