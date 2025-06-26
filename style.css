@@ -545,4 +545,11 @@ button.claude:hover {
     font-size: 0.98rem;
     padding: 12px;
   }
+}
+
+#modalAcciones {
+  display: flex;
+  justify-content: center;
+  gap: 32px !important;
+  margin-top: 18px;
 } 
