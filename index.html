@@ -5,6 +5,7 @@
   <title>Generador de Prompt - Comentario Negativo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="/promt/manifest.json">
 </head>
 <body>
   <div class="header">
@@ -186,6 +187,12 @@ No incluyas explicaciones internas ni desarrollo adicional, solo las respuestas 
         e.target.style.height = e.target.scrollHeight + 'px';
       }
     });
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/promt/service-worker.js');
+      });
+    }
   </script>
 </body>
 </html>
