@@ -13,22 +13,30 @@
   </div>
   <form class="card" onsubmit="event.preventDefault(); generarPrompt();">
     <label for="tema">Tema del comentario</label>
-    <input type="text" id="tema" placeholder="Ejemplo: participación política de las mujeres" autocomplete="off" required>
+    <textarea id="tema" class="input-autoresize" rows="1" placeholder="Ejemplo:Participación política de las mujeres" autocomplete="off" required style="resize:none; min-height:60px;"></textarea>
 
     <label for="link">Link a la publicación</label>
-    <input type="text" id="link" placeholder="Ejemplo: https://facebook.com/post/123" autocomplete="off" required>
+    <textarea id="link" class="input-autoresize" rows="1" placeholder="Ejemplo:https://facebook.com/post/12" autocomplete="off" required style="resize:none; min-height:38px;"></textarea>
 
     <label for="comentario">Comentario textual</label>
-    <textarea id="comentario" rows="4" placeholder="Escribe aquí el comentario negativo..." required></textarea>
+    <textarea id="comentario" class="input-autoresize" rows="2" placeholder="Escribe aquí el comentario negativo..." required style="resize:none; min-height:38px;"></textarea>
 
     <div class="actions">
       <button type="submit" class="gen">Generar Prompt</button>
     </div>
-    <div class="output" id="resultado"></div>
+    <div class="textarea-wrapper" style="position:relative; width:100%; display:none;">
+      <button id="btnEdit" type="button" class="edit-btn-bar" style="position:absolute; left:8px; top:-17px; display:flex; align-items:center; gap:6px; font-size:1em; background:#fff; border-radius:6px; border:1.5px solid #a78bfa; box-shadow:0 1px 4px rgba(60,72,88,0.10); color:#7c3aed; padding:3px 12px; cursor:pointer; transition:background 0.18s, color 0.18s; font-weight:600; z-index:4;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 17.25V21h3.75l11.06-11.06a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0L3 17.25zm14.71-9.04a1.003 1.003 0 0 1 1.42 0l2.34 2.34a1.003 1.003 0 0 1 0 1.42l-1.13 1.13-3.76-3.76 1.13-1.13z" fill="#7c3aed"/></svg>
+        Editar
+      </button>
+      <button id="btnScrollUp" type="button" class="scroll-btn" style="position:absolute; right:-5px; top:8px; z-index:3; display:flex; align-items:center; justify-content:center; font-size:1.3em; background:#fff; border-radius:50%; border:1.5px solid #e0e7ff; box-shadow:0 1px 4px rgba(60,72,88,0.10); width:28px; height:28px; cursor:pointer;">▲</button>
+      <textarea id="resultado" class="output-textarea" rows="18" style="resize:vertical; width:100%; min-height:320px;" readonly></textarea>
+      <button id="btnScrollDown" type="button" class="scroll-btn" style="position:absolute; right:-5px; bottom:8px; z-index:3; display:flex; align-items:center; justify-content:center; font-size:1.3em; background:#fff; border-radius:50%; border:1.5px solid #e0e7ff; box-shadow:0 1px 4px rgba(60,72,88,0.10); width:28px; height:28px; cursor:pointer;">▼</button>
+    </div>
     <div class="copy-actions" style="display:flex; flex-direction:column; gap:10px; margin-top:10px; display:none;">
-      <button id="copiarRedirigir" type="button" class="chatgpt" onclick="copiarYRedirigir()"><img src="chat gpt.png" alt="ChatGPT" class="icon-img-chatgpt" aria-hidden="true"/> Copiar y abrir ChatGPT</button>
-      <button id="copiarRedirigirCopilot" type="button" class="copilot" onclick="copiarYRedirigirCopilot()"><img src="copilot.png" alt="Copilot" class="icon-img-copilot" aria-hidden="true"/> Copiar y abrir Copilot</button>
-      <button id="copiarRedirigirGemini" type="button" class="gemini" style="display:none;" onclick="copiarYRedirigirGemini()"><img src="gemini.png" alt="Gemini" class="icon-img-gemini" aria-hidden="true"/> Copiar y abrir Gemini</button>
+      <button id="copiarRedirigir" type="button" class="chatgpt" onclick="copiarYRedirigir()"><img src="img/chat gpt.png" alt="ChatGPT" class="icon-img-chatgpt" aria-hidden="true"/> Copiar y abrir ChatGPT</button>
+      <button id="copiarRedirigirCopilot" type="button" class="copilot" onclick="copiarYRedirigirCopilot()"><img src="img/copilot.png" alt="Copilot" class="icon-img-copilot" aria-hidden="true"/> Copiar y abrir Copilot</button>
+      <button id="copiarRedirigirGemini" type="button" class="gemini" onclick="copiarYRedirigirGemini()"><img src="img/gemini.png" alt="Gemini" class="icon-img-gemini" aria-hidden="true"/> Copiar y abrir Gemini</button>
     </div>
   </form>
 
@@ -64,15 +72,23 @@ Necesito que generes *5 posibles respuestas* que cumplan con lo siguiente:
 
 No incluyas explicaciones internas ni desarrollo adicional, solo las respuestas listas para publicar.`;
 
-      document.getElementById("resultado").textContent = prompt;
-      document.querySelector(".copy-actions").style.display = "flex";
-      document.getElementById("copiarRedirigir").style.display = "block";
-      document.getElementById("copiarRedirigirCopilot").style.display = "block";
-      document.getElementById("copiarRedirigirGemini").style.display = "block";
+      const resultado = document.getElementById("resultado");
+      resultado.value = prompt;
+      document.querySelector('.textarea-wrapper').style.display = "block";
+      document.querySelector('.copy-actions').style.display = "flex";
+      // Scroll suave hacia el textarea
+      setTimeout(() => {
+        resultado.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
+
+    function getPromptPlano() {
+      const resultado = document.getElementById("resultado");
+      return resultado.value;
     }
 
     function copiarYRedirigir() {
-      const prompt = document.getElementById("resultado").textContent;
+      const prompt = getPromptPlano();
       if (!prompt) return;
       navigator.clipboard.writeText(prompt).then(function() {
         mostrarModal("<strong>A continuación serás redirigido a ChatGPT.</strong><br><br>Para pegar tu prompt:<br>- <b>En computadora:</b> presiona <b>Ctrl + V</b> en el cuadro de texto.<br>- <b>En teléfono:</b> mantén presionado en el cuadro de texto y selecciona <b>'Pegar'</b>.", "https://chatgpt.com/?model=auto");
@@ -80,7 +96,7 @@ No incluyas explicaciones internas ni desarrollo adicional, solo las respuestas 
     }
 
     function copiarYRedirigirCopilot() {
-      const prompt = document.getElementById("resultado").textContent;
+      const prompt = getPromptPlano();
       if (!prompt) return;
       navigator.clipboard.writeText(prompt).then(function() {
         mostrarModal("<strong>A continuación serás redirigido a Copilot.</strong><br><br>Para pegar tu prompt:<br>- <b>En computadora:</b> presiona <b>Ctrl + V</b> en el cuadro de texto.<br>- <b>En teléfono:</b> mantén presionado en el cuadro de texto y selecciona <b>'Pegar'</b>.", "https://copilot.microsoft.com/chats/36aEQkA7gcwf7JAgHKQYQ");
@@ -88,7 +104,7 @@ No incluyas explicaciones internas ni desarrollo adicional, solo las respuestas 
     }
 
     function copiarYRedirigirGemini() {
-      const prompt = document.getElementById("resultado").textContent;
+      const prompt = getPromptPlano();
       if (!prompt) return;
       navigator.clipboard.writeText(prompt).then(function() {
         mostrarModal("<strong>A continuación serás redirigido a Gemini (Google).</strong><br><br>Para pegar tu prompt:<br>- <b>En computadora:</b> presiona <b>Ctrl + V</b> en el cuadro de texto.<br>- <b>En teléfono:</b> mantén presionado en el cuadro de texto y selecciona <b>'Pegar'</b>.", "https://gemini.google.com/?hl=es");
@@ -123,6 +139,53 @@ No incluyas explicaciones internas ni desarrollo adicional, solo las respuestas 
         window.location.href = redireccionURL;
       }
     }
+
+    // Funcionalidad de los botones de scroll
+    document.addEventListener('DOMContentLoaded', function() {
+      const resultado = document.getElementById('resultado');
+      const btnUp = document.getElementById('btnScrollUp');
+      const btnDown = document.getElementById('btnScrollDown');
+      btnUp.addEventListener('click', function(e) {
+        e.preventDefault();
+        resultado.scrollBy({ top: -resultado.clientHeight * 0.2, behavior: 'smooth' });
+      });
+      btnDown.addEventListener('click', function(e) {
+        e.preventDefault();
+        resultado.scrollBy({ top: resultado.clientHeight * 0.2, behavior: 'smooth' });
+      });
+    });
+
+    // Funcionalidad del botón de edición tipo barra
+    document.addEventListener('DOMContentLoaded', function() {
+      const resultado = document.getElementById('resultado');
+      const btnEdit = document.getElementById('btnEdit');
+      let editando = false;
+      btnEdit.addEventListener('click', function(e) {
+        e.preventDefault();
+        editando = !editando;
+        resultado.readOnly = !editando;
+        if (editando) {
+          resultado.focus();
+          btnEdit.style.background = '#a78bfa';
+          btnEdit.style.color = '#fff';
+          btnEdit.querySelector('svg path').setAttribute('fill', '#fff');
+          btnEdit.childNodes[2].textContent = ' Editando';
+        } else {
+          btnEdit.style.background = '#fff';
+          btnEdit.style.color = '#7c3aed';
+          btnEdit.querySelector('svg path').setAttribute('fill', '#7c3aed');
+          btnEdit.childNodes[2].textContent = ' Editar';
+        }
+      });
+    });
+
+    // Autoajuste de altura para los nuevos textareas
+    document.addEventListener('input', function(e) {
+      if (e.target && e.target.classList.contains('input-autoresize')) {
+        e.target.style.height = 'auto';
+        e.target.style.height = e.target.scrollHeight + 'px';
+      }
+    });
   </script>
 </body>
 </html>
