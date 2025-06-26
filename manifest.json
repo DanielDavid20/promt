@@ -9,7 +9,7 @@
   "description": "Responde comentarios negativos en Facebook con argumentos sólidos y respeto.",
   "icons": [
     {
-      "src": "/promt/icons/iconoapp192x192.png",
+      "src": "/promt/icons/iconoapp.png",
       "sizes": "192x192",
       "type": "image/png"
     },
