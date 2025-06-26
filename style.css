@@ -133,6 +133,45 @@ button.gemini:hover {
   border: none;
 }
 
+button.metaai {
+  background: linear-gradient(90deg, #25d366 0%, #1877f2 100%);
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(24, 119, 242, 0.08);
+}
+button.metaai:hover {
+  background: linear-gradient(90deg, #1877f2 0%, #25d366 100%);
+  color: #fff;
+  border: none;
+}
+
+button.deepseek {
+  background: linear-gradient(90deg, #0ea5e9 0%, #6366f1 100%);
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
+}
+button.deepseek:hover {
+  background: linear-gradient(90deg, #6366f1 0%, #0ea5e9 100%);
+  color: #fff;
+  border: none;
+}
+
+button.claude {
+  background: linear-gradient(90deg, #fbbf24 0%, #b9690d 100%);
+  color: #ffffff;
+  border: none;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(167, 139, 250, 0.08);
+}
+button.claude:hover {
+  background: linear-gradient(90deg, #a78bfa 0%, #fbbf24 100%);
+  color: #fff;
+  border: none;
+}
+
 .copy-actions {
   display: flex;
   flex-direction: column;
@@ -360,6 +399,39 @@ button.gemini:hover {
 }
 
 .icon-img-gemini {
+  width: 1.3em;
+  height: 1.3em;
+  vertical-align: middle;
+  margin-right: 7px;
+  border-radius: 5px;
+  box-shadow: 0 1px 4px rgba(60, 72, 88, 0.10);
+  background: #fff;
+  object-fit: contain;
+}
+
+.icon-img-metaai {
+  width: 1.3em;
+  height: 1.3em;
+  vertical-align: middle;
+  margin-right: 7px;
+  border-radius: 5px;
+  box-shadow: 0 1px 4px rgba(60, 72, 88, 0.10);
+  background: #fff;
+  object-fit: contain;
+}
+
+.icon-img-deepseek {
+  width: 1.3em;
+  height: 1.3em;
+  vertical-align: middle;
+  margin-right: 7px;
+  border-radius: 5px;
+  box-shadow: 0 1px 4px rgba(60, 72, 88, 0.10);
+  background: #fff;
+  object-fit: contain;
+}
+
+.icon-img-claude {
   width: 1.3em;
   height: 1.3em;
   vertical-align: middle;

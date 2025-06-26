@@ -26,18 +26,28 @@
       <button type="submit" class="gen">Generar Prompt</button>
     </div>
     <div class="textarea-wrapper" style="position:relative; width:100%; display:none;">
-      <button id="btnEdit" type="button" class="edit-btn-bar" style="position:absolute; left:8px; top:-17px; display:flex; align-items:center; gap:6px; font-size:1em; background:#fff; border-radius:6px; border:1.5px solid #a78bfa; box-shadow:0 1px 4px rgba(60,72,88,0.10); color:#7c3aed; padding:3px 12px; cursor:pointer; transition:background 0.18s, color 0.18s; font-weight:600; z-index:4;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 17.25V21h3.75l11.06-11.06a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0L3 17.25zm14.71-9.04a1.003 1.003 0 0 1 1.42 0l2.34 2.34a1.003 1.003 0 0 1 0 1.42l-1.13 1.13-3.76-3.76 1.13-1.13z" fill="#7c3aed"/></svg>
-        Editar
-      </button>
+      <div style="position:absolute; left:8px; top:-17px; display:flex; gap:10px; z-index:4;">
+        <button id="btnEdit" type="button" class="edit-btn-bar" style="display:flex; align-items:center; gap:6px; font-size:1em; background:#fff; border-radius:6px; border:1.5px solid #a78bfa; box-shadow:0 1px 4px rgba(60,72,88,0.10); color:#7c3aed; padding:3px 12px; cursor:pointer; transition:background 0.18s, color 0.18s; font-weight:600;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 17.25V21h3.75l11.06-11.06a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0L3 17.25zm14.71-9.04a1.003 1.003 0 0 1 1.42 0l2.34 2.34a1.003 1.003 0 0 1 0 1.42l-1.13 1.13-3.76-3.76 1.13-1.13z" fill="#7c3aed"/></svg>
+          Editar
+        </button>
+        <button id="btnCopyPrompt" type="button" class="copy-btn-bar" style="display:flex; align-items:center; gap:6px; font-size:1em; background:#fff; border-radius:6px; border:1.5px solid #3b5bdb; box-shadow:0 1px 4px rgba(60,72,88,0.10); color:#3b5bdb; padding:3px 12px; cursor:pointer; transition:background 0.18s, color 0.18s; font-weight:600;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="8" width="8" height="12" rx="2" fill="#3b5bdb"/><rect x="4" y="4" width="8" height="12" rx="2" fill="#a5b4fc"/></svg>
+          Copiar
+        </button>
+      </div>
       <button id="btnScrollUp" type="button" class="scroll-btn" style="position:absolute; right:-5px; top:8px; z-index:3; display:flex; align-items:center; justify-content:center; font-size:1.3em; background:#fff; border-radius:50%; border:1.5px solid #e0e7ff; box-shadow:0 1px 4px rgba(60,72,88,0.10); width:28px; height:28px; cursor:pointer;">▲</button>
       <textarea id="resultado" class="output-textarea" rows="18" style="resize:vertical; width:100%; min-height:320px;" readonly></textarea>
       <button id="btnScrollDown" type="button" class="scroll-btn" style="position:absolute; right:-5px; bottom:8px; z-index:3; display:flex; align-items:center; justify-content:center; font-size:1.3em; background:#fff; border-radius:50%; border:1.5px solid #e0e7ff; box-shadow:0 1px 4px rgba(60,72,88,0.10); width:28px; height:28px; cursor:pointer;">▼</button>
     </div>
     <div class="copy-actions" style="display:flex; flex-direction:column; gap:10px; margin-top:10px; display:none;">
+      <div style="margin-bottom: 8px; font-weight: 600; color: #364fc7; font-size: 1.08rem; text-align:left;">¿A qué chat bot quieres enviar tu prompt? Selecciona tu favorito:</div>
       <button id="copiarRedirigir" type="button" class="chatgpt" onclick="copiarYRedirigir()"><img src="img/chat gpt.png" alt="ChatGPT" class="icon-img-chatgpt" aria-hidden="true"/> Copiar y abrir ChatGPT</button>
       <button id="copiarRedirigirCopilot" type="button" class="copilot" onclick="copiarYRedirigirCopilot()"><img src="img/copilot.png" alt="Copilot" class="icon-img-copilot" aria-hidden="true"/> Copiar y abrir Copilot</button>
       <button id="copiarRedirigirGemini" type="button" class="gemini" onclick="copiarYRedirigirGemini()"><img src="img/gemini.png" alt="Gemini" class="icon-img-gemini" aria-hidden="true"/> Copiar y abrir Gemini</button>
+      <button id="copiarRedirigirMetaAI" type="button" class="metaai" onclick="copiarYRedirigirMetaAI()"><img src="img/metaai.png" alt="Meta AI" class="icon-img-metaai" aria-hidden="true" style="width:1.3em;height:1.3em;vertical-align:middle;margin-right:7px;"/> Copiar y abrir Meta AI</button>
+      <button id="copiarRedirigirDeepSeek" type="button" class="deepseek" onclick="copiarYRedirigirDeepSeek()"><img src="img/deepseek.png" alt="DeepSeek" class="icon-img-deepseek" aria-hidden="true" style="width:1.3em;height:1.3em;vertical-align:middle;margin-right:7px;"/> Copiar y abrir DeepSeek</button>
+      <button id="copiarRedirigirClaude" type="button" class="claude" onclick="copiarYRedirigirClaude()"><img src="img/claude.png" alt="Claude" class="icon-img-claude" aria-hidden="true" style="width:1.3em;height:1.3em;vertical-align:middle;margin-right:7px;"/> Copiar y abrir Claude</button>
     </div>
   </form>
 
@@ -46,7 +56,7 @@
     <div class="modal-content">
       <button class="close" onclick="cerrarModal()" aria-label="Cerrar ventana">&times;</button>
       <div id="modalMensaje"></div>
-      <button onclick="continuarRedireccion()">Continuar</button>
+      <div id="modalAcciones"></div>
     </div>
   </div>
 
@@ -60,11 +70,11 @@
       const link = document.getElementById("link").value.trim();
       const comentario = document.getElementById("comentario").value.trim();
 
-      const prompt = `Quiero que me ayudes a responder a un comentario negativo en Facebook relacionado con el tema *${tema}*,  que fue publicado en el siguiente enlace:  ${link}.
+      const prompt = `Quiero que me ayudes a responder a un comentario negativo en Facebook relacionado con el tema "${tema}",  que fue publicado en el siguiente enlace:  ${link}.
 
-El comentario dice: *"${comentario}"*.
+El comentario dice: "${comentario}".
 
-Necesito que generes *5 posibles respuestas* que cumplan con lo siguiente:
+Necesito que generes 5 posibles respuestas que cumplan con lo siguiente:
 - Sean claras, respetuosas y firmes.
 - Estén fundamentadas en legislación colombiana vigente (cita artículos o leyes si aplica).
 - Utilicen técnicas de contraargumentación, sin caer en provocaciones ni lenguaje ofensivo.
@@ -112,6 +122,30 @@ No incluyas explicaciones internas ni desarrollo adicional, solo las respuestas 
       });
     }
 
+    function copiarYRedirigirMetaAI() {
+      const prompt = getPromptPlano();
+      if (!prompt) return;
+      navigator.clipboard.writeText(prompt).then(function() {
+        mostrarModal("<strong>A continuación serás redirigido a Meta AI (WhatsApp).</strong><br><br>Para pegar tu prompt:<br>- <b>En computadora:</b> presiona <b>Ctrl + V</b> en el chat.<br>- <b>En teléfono:</b> mantén presionado en el cuadro de texto y selecciona <b>'Pegar'</b>.", "https://wa.me/13135550002?s=5");
+      });
+    }
+
+    function copiarYRedirigirDeepSeek() {
+      const prompt = getPromptPlano();
+      if (!prompt) return;
+      navigator.clipboard.writeText(prompt).then(function() {
+        mostrarModal("<strong>A continuación serás redirigido a DeepSeek.</strong><br><br>Para pegar tu prompt:<br>- <b>En computadora:</b> presiona <b>Ctrl + V</b> en el chat.<br>- <b>En teléfono:</b> mantén presionado en el cuadro de texto y selecciona <b>'Pegar'</b>.", "https://chat.deepseek.com");
+      });
+    }
+
+    function copiarYRedirigirClaude() {
+      const prompt = getPromptPlano();
+      if (!prompt) return;
+      navigator.clipboard.writeText(prompt).then(function() {
+        mostrarModal("<strong>A continuación serás redirigido a Claude.</strong><br><br>Para pegar tu prompt:<br>- <b>En computadora:</b> presiona <b>Ctrl + V</b> en el chat.<br>- <b>En teléfono:</b> mantén presionado en el cuadro de texto y selecciona <b>'Pegar'</b>.", "https://claude.ai/new");
+      });
+    }
+
     function mostrarToast(mensaje) {
       const toast = document.getElementById('toast');
       toast.textContent = mensaje;
@@ -124,15 +158,56 @@ No incluyas explicaciones internas ni desarrollo adicional, solo las respuestas 
     function mostrarModal(mensaje, url) {
       mostrarToast('Prompt copiado exitosamente');
       setTimeout(() => {
-        document.getElementById('modalMensaje').innerHTML = mensaje;
+        document.getElementById('modalMensaje').innerHTML = mensaje + '<br><br><b>Presiona continuar para abrir el chat bot seleccionado.</b>';
         document.getElementById('modal').style.display = 'flex';
         redireccionURL = url;
+        // Botones de acción
+        let acciones = document.getElementById('modalAcciones');
+        if (!acciones) {
+          acciones = document.createElement('div');
+          acciones.id = 'modalAcciones';
+          acciones.style.display = 'flex';
+          acciones.style.justifyContent = 'center';
+          acciones.style.gap = '16px';
+          acciones.style.marginTop = '18px';
+          document.querySelector('.modal-content').appendChild(acciones);
+        }
+        acciones.innerHTML = '';
+        // Botón cancelar
+        const btnCancelar = document.createElement('button');
+        btnCancelar.textContent = 'Cancelar';
+        btnCancelar.style.background = '#e03131';
+        btnCancelar.style.color = '#fff';
+        btnCancelar.style.border = 'none';
+        btnCancelar.style.borderRadius = '8px';
+        btnCancelar.style.padding = '12px 28px';
+        btnCancelar.style.fontWeight = '600';
+        btnCancelar.style.fontSize = '1.08rem';
+        btnCancelar.style.cursor = 'pointer';
+        btnCancelar.onclick = cerrarModal;
+        // Botón continuar
+        const btnContinuar = document.createElement('button');
+        btnContinuar.textContent = 'Continuar';
+        btnContinuar.style.background = 'linear-gradient(90deg, #3b5bdb 0%, #818cf8 100%)';
+        btnContinuar.style.color = '#fff';
+        btnContinuar.style.border = 'none';
+        btnContinuar.style.borderRadius = '8px';
+        btnContinuar.style.padding = '12px 28px';
+        btnContinuar.style.fontWeight = '600';
+        btnContinuar.style.fontSize = '1.08rem';
+        btnContinuar.style.cursor = 'pointer';
+        btnContinuar.onclick = continuarRedireccion;
+        acciones.appendChild(btnCancelar);
+        acciones.appendChild(btnContinuar);
       }, 2000);
     }
 
     function cerrarModal() {
       document.getElementById('modal').style.display = 'none';
       redireccionURL = null;
+      // Eliminar botones de acción si existen
+      const acciones = document.getElementById('modalAcciones');
+      if (acciones) acciones.remove();
     }
 
     function continuarRedireccion() {
@@ -185,6 +260,20 @@ No incluyas explicaciones internas ni desarrollo adicional, solo las respuestas 
       if (e.target && e.target.classList.contains('input-autoresize')) {
         e.target.style.height = 'auto';
         e.target.style.height = e.target.scrollHeight + 'px';
+      }
+    });
+
+    // Funcionalidad del botón copiar prompt
+    document.addEventListener('DOMContentLoaded', function() {
+      const btnCopyPrompt = document.getElementById('btnCopyPrompt');
+      const resultado = document.getElementById('resultado');
+      if (btnCopyPrompt && resultado) {
+        btnCopyPrompt.addEventListener('click', function(e) {
+          e.preventDefault();
+          navigator.clipboard.writeText(resultado.value).then(function() {
+            mostrarToast('Prompt copiado exitosamente');
+          });
+        });
       }
     });
 
